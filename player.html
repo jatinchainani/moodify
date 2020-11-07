@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Colorlib Templates">
+  <meta name="author" content="Colorlib">
+  <meta name="keywords" content="Colorlib Templates">
+  <title>Moodify Music Player</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" rel="stylesheet" media="all">
+  <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet"
+    media="all">
+  <link href="css/main.css" rel="stylesheet" media="all">
+  <link href="css/sidebar.css" rel="stylesheet" media="all">
+  <link href="css/player.css" rel="stylesheet" media="all">
+</head>
+
+<body>
+  
+  <div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="#">My mood Playlist</a>
+    <a href="#">Custom Playlist 1</a>
+    <a href="#">Custom Playlist 2</a>
+    <a href="#">Custom Playlist 3</a>
+  </div>
+
+  <div id="main">
+    <button class="openbtn" id="openbtn" onclick="openNav()">☰</button>
+  </div>
+  <div class="music-player">
+    <div class="info">
+
+      <div class="left">
+        <a href="javascript:;" class="icon-shuffle"></a>
+        <a href="javascript:;" class="icon-heart"></a>
+      </div>
+
+      <div class="center">
+        <div class="jp-playlist">
+          <ul>
+            <li></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="right">
+        <a href="javascript:;" class="icon-repeat"></a>
+        <a href="javascript:;" class="icon-share"></a>
+      </div>
+
+      <div class="progress"></div>
+
+    </div>
+
+    <div class="controls">
+      <div class="current jp-current-time">00:00</div>
+      <div class="play-controls">
+        <a href="javascript:;" class="icon-previous jp-previous" title="previous"></a>
+        <a href="javascript:;" class="icon-play jp-play" title="play"></a>
+        <a href="javascript:;" class="icon-pause jp-pause" title="pause"></a>
+        <a href="javascript:;" class="icon-next jp-next" title="next"></a>
+      </div>
+      <div class="volume-level">
+        <a href="javascript:;" class="icon-volume-up" title="max volume"></a>
+        <a href="javascript:;" class="icon-volume-down" title="mute"></a>
+      </div>
+    </div>
+
+    <div id="jquery_jplayer" class="jp-jplayer"></div>
+
+  </div>
+
+  <script>
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+      document.getElementById("openbtn").style.display = "none";
+    }
+
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+      document.getElementById("openbtn").style.display = "block";
+    }
+  </script>
+
+
+
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.6.4/jquery.jplayer/jquery.jplayer.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.6.4/add-on/jplayer.playlist.min.js"></script>
+  <script>
+    $(document).ready(function () {
+
+
+      var playlist = [{
+        title: "Hidden",
+        artist: "Miaow",
+        mp3: "http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.mp3",
+        oga: "http://www.jplayer.org/audio/ogg/Miaow-02-Hidden.ogg",
+        poster: "https://i.imgur.com/sCbrzQa.png"
+      }, {
+        title: "Cro Magnon Man",
+        artist: "The Stark Palace",
+        mp3: "http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3",
+        oga: "http://www.jplayer.org/audio/ogg/TSP-01-Cro_magnon_man.ogg",
+        poster: "https://i.imgur.com/lXvsuBu.png"
+      }, {
+        title: "Bubble",
+        m4a: "http://www.jplayer.org/audio/m4a/Miaow-07-Bubble.m4a",
+        oga: "http://www.jplayer.org/audio/ogg/Miaow-07-Bubble.ogg",
+        poster: "https://i.imgur.com/klJKSVZ.jpg"
+      }];
+
+      var cssSelector = {
+        jPlayer: "#jquery_jplayer",
+        cssSelectorAncestor: ".music-player"
+      };
+
+      var options = {
+        swfPath: "https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.6.4/jquery.jplayer/Jplayer.swf",
+        supplied: "ogv, m4v, oga, mp3",
+        volumechange: function (event) {
+          $(".volume-level").slider("value", event.jPlayer.options.volume);
+        },
+        timeupdate: function (event) {
+          $(".progress").slider("value", event.jPlayer.status.currentPercentAbsolute);
+        }
+      };
+
+      var myPlaylist = new jPlayerPlaylist(cssSelector, playlist, options);
+      var PlayerData = $(cssSelector.jPlayer).data("jPlayer");
+
+
+      // Create the volume slider control
+      $(".volume-level").slider({
+        animate: "fast",
+        max: 1,
+        range: "min",
+        step: 0.01,
+        value: $.jPlayer.prototype.options.volume,
+        slide: function (event, ui) {
+          $(cssSelector.jPlayer).jPlayer("option", "muted", false);
+          $(cssSelector.jPlayer).jPlayer("option", "volume", ui.value);
+        }
+      });
+
+      // Create the progress slider control
+      $(".progress").slider({
+        animate: "fast",
+        max: 100,
+        range: "min",
+        step: 0.1,
+        value: 0,
+        slide: function (event, ui) {
+          var sp = PlayerData.status.seekPercent;
+          if (sp > 0) {
+            // Move the play-head to the value and factor in the seek percent.
+            $(cssSelector.jPlayer).jPlayer("playHead", ui.value * (100 / sp));
+          } else {
+            // Create a timeout to reset this slider to zero.
+            setTimeout(function () {
+              $(".progress").slider("value", 0);
+            }, 0);
+          }
+        }
+      });
+
+
+    });
+  </script>
+</body>
+
+</html>
