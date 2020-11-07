@@ -19,5 +19,33 @@
     + [login.html](login.html) - signin / login
     + [player.html](player.html) - media player
 
-    
+
+
+## Sites referred - 
+
+1. https://developer.mozilla.org/en-US/docs/Web/
+2. https://www.w3schools.com/
+3. https://api.jquery.com/
+
+
+
+## Technologies used - 
+
+HTML - https://www.w3schools.com/html/html_intro.asp
+
+CSS - https://www.w3schools.com/css/css_intro.asp
+
+JavaScript - https://www.w3schools.com/js/default.asp
+
+JQuery - https://www.w3schools.com/jquery/jquery_intro.asp
+
+Datepicker - https://jqueryui.com/datepicker/
+
+Select2 - https://select2.org/
+
+FontAwesome - https://fontawesome.com/
+
+Google Fonts - https://fonts.google.com/
+
+jPlayer - https://jplayer.org/
 
